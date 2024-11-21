@@ -1,1 +1,1 @@
-
+This is a console-based quiz app that asks the user for credentials to log in or register. User data is stored in a JSON file. After successful login, the user is asked to choose a section for the quiz. There are three sections in the quiz, each with five questions. After answering all questions, the user is asked if they want to retake the quiz or exit.
