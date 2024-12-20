@@ -5,8 +5,8 @@ def clear_console():
 
 DATA_FILE = "data.txt"
 
-def read_data():
-    """Reads data from the data file."""
+def read_data():  #read data from the file
+    
     if not os.path.exists(DATA_FILE):
         return {}
 
@@ -26,8 +26,8 @@ def read_data():
             }
     return users
 
-def write_data(users):
-    """Writes user data to the data file."""
+def write_data(users):  #writes user data to the file
+    
     with open(DATA_FILE, "w") as file:
         for enrollment, details in users.items():
             file.write(",".join([enrollment, details["name"], details["pass"], details["sem"], details["branch"]]) + "\n")
