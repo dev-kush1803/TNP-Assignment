@@ -1,4 +1,4 @@
-User_Data = "userdata.txt"# An external file was made to store User_Data info
+User_Data = "userdata.txt"# dictionary was made to store User_Data info
 
 import os
 
