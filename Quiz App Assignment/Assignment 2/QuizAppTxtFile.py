@@ -1,45 +1,73 @@
-User_Data = "userdata.txt"# dictionary was made to store User_Data info
-
 import os
 
 def clear_console():
-    # Check the OS and use the appropriate command
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def main(): 
+DATA_FILE = "data.txt"
+
+def read_data():
+    """Reads data from the data file."""
+    if not os.path.exists(DATA_FILE):
+        return {}
+
+    with open(DATA_FILE, "r") as file:
+        lines = file.readlines()
+
+    users = {}
+    for line in lines:
+        parts = line.strip().split(",")
+        if len(parts) == 5:
+            enrollment, name, password, sem, branch = parts
+            users[enrollment] = {
+                "name": name,
+                "pass": password,
+                "sem": sem,
+                "branch": branch
+            }
+    return users
+
+def write_data(users):
+    """Writes user data to the data file."""
+    with open(DATA_FILE, "w") as file:
+        for enrollment, details in users.items():
+            file.write(",".join([enrollment, details["name"], details["pass"], details["sem"], details["branch"]]) + "\n")
+
+def main():
+    users = read_data()
     action = input("\nAre you registered? (yes/no): ").lower()
     if action == 'yes':
-        login()
+        login(users)
     elif action == 'no':
-        if register():
-            login()
+        if register(users):
+            login(users)
     else:
         print("\nPlease enter 'yes' or 'no'.")
 
-def register(): #take input from user and check in dictionary.
-    a = input("\nEnter unique Enrollment no.: ")
-    if a in User_Data: # check user is already enrolled or not
+def register(users):
+    enrollment = input("\nEnter unique Enrollment no.: ")
+    if enrollment in users:
         print("\nEnrollment no. already registered. Please login.\n")
-        login()
-    else : # store details of User_Data with enrollment a
-        User_Data[a] = {
-        "name": input("Enter your name: "),
-        "pass": input("Enter your password: "),
-        "sem": input("Enter your semester: "),
-        "branch": input("Enter your branch: ")
-    } 
-    print("\nRegistration successful You can now login.\n")
-    login()
-
-def login():
-    print("Enter details to Log In\n")
-    a = input("Enter your Enrollment no.: ")
-    pas = input("Enter your password: ")
-    if a in User_Data and User_Data[a]["pass"] == pas:
-        print(f"\nWelcome , {User_Data[a]['name']} Login successful.\n")
+        login(users)
     else:
-        print("\nInvalid Enrollment no. or password. Please Register First\n")
-        register()
+        users[enrollment] = {
+            "name": input("Enter your name: "),
+            "pass": input("Enter your password: "),
+            "sem": input("Enter your semester: "),
+            "branch": input("Enter your branch: ")
+        }
+        write_data(users)
+        print("\nRegistration successful. You can now login.\n")
+        login(users)
+
+def login(users):
+    print("Enter details to Log In\n")
+    enrollment = input("Enter your Enrollment no.: ")
+    password = input("Enter your password: ")
+    if enrollment in users and users[enrollment]["pass"] == password:
+        print(f"\nWelcome, {users[enrollment]['name']}! Login successful.\n")
+    else:
+        print("\nInvalid Enrollment no. or password. Please register first.\n")
+        register(users)
 
 main() #main func. call to run prog.
 
