@@ -17,14 +17,14 @@ def main():
         print("\nPlease enter 'yes' or 'no'.")
 
 def register(): #take input from user and check in dictionary.
-    a = input("\nEnter unique Enrollment no.: ")
-    if a in users: # check user is already enrolled or not
+    enrollment = input("\nEnter unique Enrollment no.: ")
+    if enrollment in users: # check user is already enrolled or not
         print("\nEnrollment no. already registered. Please login.\n")
         login()
     else : # store details of users with enrollment a
-        users[a] = {
+        users[enrollment] = {
         "name": input("Enter your name: "),
-        "pass": input("Enter your password: "),
+        "password": input("Enter your password: "),
         "sem": input("Enter your semester: "),
         "branch": input("Enter your branch: ")
     } 
@@ -33,10 +33,10 @@ def register(): #take input from user and check in dictionary.
 
 def login():
     print("Enter details to Log In\n")
-    a = input("Enter your Enrollment no.: ")
+    enrollment = input("Enter your Enrollment no.: ")
     pas = input("Enter your password: ")
-    if a in users and users[a]["pass"] == pas:
-        print(f"\nWelcome , {users[a]['name']} Login successful.\n")
+    if enrollment in users and users[enrollment]["password"] == pas:
+        print(f"\nWelcome , {users[enrollment]['name']} Login successful.\n")
     else:
         print("\nInvalid Enrollment no. or password. Please Register First\n")
         register()
